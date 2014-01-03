@@ -10,6 +10,7 @@
 //  ------------------------------------------------------------------------
 
 using System;
+using System.Linq;
 
 namespace WindowsPhoneTestFramework.Server.Utils
 {
@@ -19,7 +20,17 @@ namespace WindowsPhoneTestFramework.Server.Utils
 
         protected void InvokeTrace(string message, params object[] args)
         {
-            InvokeTrace(new SimpleMessageEventArgs {Message = string.Format(message, args)});
+            string msg;
+            try
+            {
+                msg = args.Length>0 ? string.Format(message, args) : message;
+            }
+            catch (FormatException e)
+            {
+                msg = message + String.Format("Error formatting message: Args='{0}",
+                           String.Join(",", args.Select(a => (a == null) ? "null" : a.ToString()))); ;
+            }
+            InvokeTrace(new SimpleMessageEventArgs { Message = msg });
         }
 
         protected void InvokeTrace(SimpleMessageEventArgs e)

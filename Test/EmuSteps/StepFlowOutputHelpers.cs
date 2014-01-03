@@ -10,6 +10,7 @@
 //  ------------------------------------------------------------------------
 
 using System;
+using System.Linq;
 
 namespace WindowsPhoneTestFramework.Test.EmuSteps
 {
@@ -29,8 +30,20 @@ namespace WindowsPhoneTestFramework.Test.EmuSteps
 
         public static void Write(WriteType type, string message, params object[] args)
         {
-            var template = string.Format(" \t{0}:->{1} \t\t \t", type, message);
-            Console.WriteLine(string.Format(template, args));
+            var template = string.Format(" \t{0}:->{1} \t\t \t", type, message); ;
+            string line;
+            try
+            {
+                line = args.Length > 0 ? string.Format(template, args) : template;
+            }
+            catch (FormatException ex)
+            {
+                line = template +
+                       String.Format("Error formatting message: Args='{0}",
+                           String.Join(",", args.Select(a => (a == null) ? "null" : a.ToString())));
+            }
+
+            Console.WriteLine(line);
         }
 
         public static void WriteException(string message, Exception exception)
