@@ -80,7 +80,7 @@ namespace WindowsPhoneTestFramework.Server.WindowsPhoneDeviceController
                 // find the device
                 InvokeTrace(string.Format("looking for device '{0}'", WpDeviceNameBase));
                 var devices = phoneSdk.GetDevices();
-                InvokeTrace(string.Format("{0} devices found", (object) devices.Count));
+                InvokeTrace(string.Format("{0} devices found", (object)devices.Count));
                 var device = devices.FirstOrDefault(d => d.Name == WpDeviceNameBase);
 
                 if (device == null)
@@ -165,7 +165,15 @@ namespace WindowsPhoneTestFramework.Server.WindowsPhoneDeviceController
                 throw new ArgumentException("Empty productId");
 
             if (!File.Exists(windowsApplicationDefinition.ApplicationPackagePath))
-                throw new FileNotFoundException("File not found - " + windowsApplicationDefinition.ApplicationPackagePath);
+            {
+                var fullPath = windowsApplicationDefinition.ApplicationPackagePath;
+                if (!Path.IsPathRooted(windowsApplicationDefinition.ApplicationPackagePath))
+                {
+                    fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                        windowsApplicationDefinition.ApplicationPackagePath);
+                }
+                throw new FileNotFoundException("XAP File not found - " + fullPath);
+            }
 
             if (!File.Exists(windowsApplicationDefinition.ApplicationIconPath))
                 throw new FileNotFoundException("File not found - " + windowsApplicationDefinition.ApplicationIconPath);
@@ -311,7 +319,7 @@ namespace WindowsPhoneTestFramework.Server.WindowsPhoneDeviceController
         {
             var store = GetIsoStorage(applicationDefinition);
 
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\IsolatedStore\Temp\" + Guid.NewGuid().ToString(); 
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\IsolatedStore\Temp\" + Guid.NewGuid().ToString();
             ReceiveDirectory(store, desktopPath);
 
             return desktopPath;
@@ -393,7 +401,7 @@ namespace WindowsPhoneTestFramework.Server.WindowsPhoneDeviceController
                     string fileName = Path.GetFileName(remoteFileInfo.Name);
                     string str = deviceRelativeDir + (object)Path.DirectorySeparatorChar + fileName;
                     DirectoryInfo subdirectory = target.CreateSubdirectory(fileName);
-                    
+
                     try
                     {
                         List<RemoteFileInfo> directoryListing = risf.GetDirectoryListing(str);
@@ -416,7 +424,7 @@ namespace WindowsPhoneTestFramework.Server.WindowsPhoneDeviceController
         private static void SendDirectory(RemoteIsolatedStorageFile risf, string desktopDirPath)
         {
             desktopDirPath = Path.GetFullPath(desktopDirPath);
-            
+
             if (!Directory.Exists(desktopDirPath))
             {
                 Console.WriteLine("Error: Path '{0}' does not exist.", (object)desktopDirPath);
@@ -442,7 +450,7 @@ namespace WindowsPhoneTestFramework.Server.WindowsPhoneDeviceController
                 {
                 }
             }
-            
+
             foreach (FileInfo fileInfo in desktopDirInfo.GetFiles())
             {
                 risf.SendFile(fileInfo.FullName, Path.Combine(deviceDirPath, fileInfo.Name), true);
