@@ -55,6 +55,11 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="AppStart.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppStart.feature</DependentUpon>
+    </Compile>
     <Compile Include="ContextMenu.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -71,6 +76,10 @@
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="AppStart.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AppStart.feature.cs</LastGenOutput>
     </None>
     <None Include="ContextMenu.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

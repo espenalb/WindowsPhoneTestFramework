@@ -19,21 +19,21 @@ namespace ExampleUsingToolkit.Spec
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("TestsIsolated")]
-    public partial class TestsIsolatedFeature
+    [NUnit.Framework.DescriptionAttribute("AppStart")]
+    public partial class AppStartFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "TestsIsolated.feature"
+#line 1 "AppStart.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TestsIsolated", "In order to avoid a broken test framework breaking\nparallel testing. I want a tes" +
-                    "t to ensure parallel tests\nwon\'t intefere with each other.", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "AppStart", "In order to verify test framework\nAs a WP8 testedr\nI want to be able to install a" +
+                    "nd start the Zedge application", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -66,26 +66,22 @@ namespace ExampleUsingToolkit.Spec
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Tests don\'t interfere with each other")]
-        [NUnit.Framework.TestCaseAttribute("Test One", null)]
-        [NUnit.Framework.TestCaseAttribute("Test Two", null)]
-        [NUnit.Framework.TestCaseAttribute("Test Three A", null)]
-        [NUnit.Framework.TestCaseAttribute("Test Three B", null)]
-        [NUnit.Framework.TestCaseAttribute("Test Four", null)]
-        [NUnit.Framework.TestCaseAttribute("Test Five", null)]
-        public virtual void TestsDonTInterfereWithEachOther(string value, string[] exampleTags)
+        [NUnit.Framework.DescriptionAttribute("Start the app")]
+        public virtual void StartTheApp()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Tests don\'t interfere with each other", exampleTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Start the app", ((string[])(null)));
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 7
- testRunner.Given("my app is clean installed and running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("my app is uninstalled", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
- testRunner.And(string.Format("I store the value \"{0}\" in the scenario context", value), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("my app is installed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 9
- testRunner.And("I wait 10 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("my app is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
- testRunner.Then(string.Format("I can read the value \"{0}\" from the scenario context", value), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I wait 5 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
+ testRunner.Then("take a picture", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
