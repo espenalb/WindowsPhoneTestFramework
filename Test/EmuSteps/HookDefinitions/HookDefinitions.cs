@@ -26,7 +26,12 @@ namespace WindowsPhoneTestFramework.Test.EmuSteps.HookDefinitions
         [AfterScenario]
         public void AfterAnyScenarioMakeSureEmuIsDisposed()
         {
+#if DEBUG
+            StepFlowOutputHelpers.Write(StepFlowOutputHelpers.WriteType.Warning,"Not disposing emulator because test is running in Debug mode. Usually causes next test to fail!");
+#else
+            StepFlowOutputHelpers.Write(StepFlowOutputHelpers.WriteType.Trace, "Disposing of emulator");
             DisposeOfEmu();
+#endif
         }
     }
 }
