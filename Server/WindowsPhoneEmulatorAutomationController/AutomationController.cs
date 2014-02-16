@@ -11,6 +11,7 @@
 
 using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Threading;
 using WindowsPhoneTestFramework.Server.Core;
 using WindowsPhoneTestFramework.Server.Utils;
@@ -261,7 +262,11 @@ namespace WindowsPhoneTestFramework.Server.AutomationController.WindowsPhone.Emu
         {
             if (DeviceController != null)
             {
+#if DEBUG
+                Debug.WriteLine("Skipping device shutdown in order to speed tests up in DEBUG mode...");
+#else
                 DeviceController.ForceDeviceShutDown();
+#endif
             }
         }
     }
