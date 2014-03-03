@@ -25,7 +25,7 @@ namespace WindowsPhoneTestFramework.Server.Utils
             {
                 msg = args.Length>0 ? string.Format(message, args) : message;
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 msg = message + String.Format("Error formatting message: Args='{0}",
                            String.Join(",", args.Select(a => (a == null) ? "null" : a.ToString()))); ;
