@@ -36,7 +36,8 @@ namespace WindowsPhoneTestFramework.Client.AutomationClient.Remote
 
             // find the parent
             var parent = GetFrameworkElementParent<ScrollViewer>();
-
+            if (parent==null)
+                throw new TestAutomationException("No scroll viewer parent found for " + element.GetType().FullName);
             // automate the scroll
             var peer = FrameworkElementAutomationPeer.CreatePeerForElement(parent);
             if (peer == null)
