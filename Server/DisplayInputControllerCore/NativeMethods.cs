@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace WindowsPhoneTestFramework.Server.DisplayInputControllerCore
 {
@@ -57,6 +58,13 @@ namespace WindowsPhoneTestFramework.Server.DisplayInputControllerCore
         private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy,
                                                 uint uFlags);
 
+        private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool EnumWindows(EnumWindowsProc callback, IntPtr extraData);
+
+
         private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
         private static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
 
@@ -85,7 +93,7 @@ namespace WindowsPhoneTestFramework.Server.DisplayInputControllerCore
 
         public static bool ChangeWindowTopMost(string lpClassName, string lpWindowName, bool topMost = true)
         {
-            var hWnd = FindWindow(lpClassName, lpWindowName);
+            var hWnd = FindWindowWithDebugInfo(lpClassName, lpWindowName);
             return ChangeWindowTopMost(hWnd, topMost);
         }
 
@@ -142,8 +150,34 @@ namespace WindowsPhoneTestFramework.Server.DisplayInputControllerCore
 
         public static Rectangle GetWindowRectangle(string lpClassName, string lpWindowName)
         {
-            var hWnd = FindWindow(lpClassName, lpWindowName);
+            var hWnd = FindWindowWithDebugInfo(lpClassName, lpWindowName);
             return GetWindowRectangle(hWnd);
+        }
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetClassName(IntPtr hWnd,
+           StringBuilder lpClassName,
+           int nMaxCount
+        );
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        internal static extern int GetWindowText(IntPtr hWnd, [Out] StringBuilder lpString, int nMaxCount);
+        private static IntPtr FindWindowWithDebugInfo(string lpClassName, string lpWindowName)
+        {
+            var hWnd = FindWindow(lpClassName, lpWindowName);
+            if (hWnd == IntPtr.Zero)
+            {
+                Debug.WriteLine("Windows named '{0}' with class {1} not found", lpWindowName, lpClassName);
+                EnumWindows((h, extra) =>
+                {
+                    var className = new StringBuilder(128);
+                    GetClassName(h, className, className.Capacity);                    
+                    var title = new StringBuilder(128);
+                    GetWindowText(h, title, title.Capacity);
+                    Debug.WriteLine("Found window {0:X} with class name {1} and title {2}", h.ToInt64(), className, title);
+                    return true;
+                }, IntPtr.Zero);
+            }
+            return hWnd;
         }
 
         public static Rectangle GetWindowRectangle(IntPtr hWnd)
@@ -188,7 +222,7 @@ namespace WindowsPhoneTestFramework.Server.DisplayInputControllerCore
 
         public static bool ChangeWindowIsInForeground(string lpClassName, string lpWindowName, bool inForeground = true)
         {
-            var hWnd = FindWindow(lpClassName, lpWindowName);
+            var hWnd = FindWindowWithDebugInfo(lpClassName, lpWindowName);
             return ChangeWindowIsInForeground(hWnd, inForeground);
         }
 
