@@ -163,9 +163,9 @@ namespace WindowsPhoneTestFramework.Server.DisplayInputControllerCore
         private static PhoneOrientation GuessOrientation(Rectangle rect)
         {
             var ratio = (rect.Width)/((double) rect.Height);
-            if (Math.Abs(ratio - 800.0/480.0) < 0.01)
+            if (Math.Abs(ratio - 800.0/480.0) < 0.1)
                 return PhoneOrientation.Landscape800By480;
-            if (Math.Abs(ratio - 480.0/800.0) < 0.01)
+            if (Math.Abs(ratio - 480.0/800.0) < 0.1)
                 return PhoneOrientation.Portrait480By800;
             throw new ManipulationFailedException("Unable to guess ratio for width {0} height {1}", rect.Width,
                                                   rect.Height);
