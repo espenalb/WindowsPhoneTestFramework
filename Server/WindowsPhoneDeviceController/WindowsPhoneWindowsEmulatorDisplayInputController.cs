@@ -22,7 +22,7 @@ namespace WindowsPhoneTestFramework.Server.WindowsPhoneDeviceController
         public WindowsPhoneWindowsEmulatorDisplayInputController()
             : base(new InputSimulator())
         {
-            EmulatorWindowClassName = "XDE_LCDWindow";
+            EmulatorWindowClassName = null;
             var windowClassName =
                 ConfigurationManager.AppSettings.Get("EmuSteps.Application.WindowsPhone.WindowClassName");
             if (!string.IsNullOrWhiteSpace(windowClassName))
