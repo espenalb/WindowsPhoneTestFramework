@@ -64,7 +64,7 @@ namespace WindowsPhoneTestFramework.Server.AutomationController.WindowsPhone.Emu
 
             else
             {
-                var pairs = names.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+                var pairs = names.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
                 GetNextAvailableDevice(pairs, 0);
 
@@ -106,7 +106,7 @@ namespace WindowsPhoneTestFramework.Server.AutomationController.WindowsPhone.Emu
 
         private void PopulateNames(string pair, Mutex mut)
         {
-            var split = pair.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            var split = pair.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (split.Length == 1)
             {
@@ -191,7 +191,7 @@ namespace WindowsPhoneTestFramework.Server.AutomationController.WindowsPhone.Emu
         {
             get
             {
-                return typeof (Microsoft.SmartDevice.Connectivity.Platform).Assembly.GetName().Version.Major == 11
+                return typeof(Microsoft.SmartDevice.Connectivity.Platform).Assembly.GetName().Version.Major == 11
                            ? WindowsPhoneVersion.Eight
                            : WindowsPhoneVersion.Seven;
             }
@@ -262,11 +262,13 @@ namespace WindowsPhoneTestFramework.Server.AutomationController.WindowsPhone.Emu
         {
             if (DeviceController != null)
             {
-#if DEBUG
-                Debug.WriteLine("Skipping device shutdown in order to speed tests up in DEBUG mode...");
-#else
+                if (Equals("true",ConfigurationManager.AppSettings["KeepEmulatorRunningAfterScenario"]))
+                {
+                    System.Diagnostics.Trace.TraceInformation("Skipping emulator shutdown because KeepEmulatorRunningAfterScenario is set in app.config...");
+                    return;
+                }
                 DeviceController.ForceDeviceShutDown();
-#endif
+
             }
         }
     }

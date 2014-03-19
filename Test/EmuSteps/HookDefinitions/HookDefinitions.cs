@@ -9,6 +9,8 @@
 //  Author - Stuart Lodge, Cirrious. http://www.cirrious.com
 //  ------------------------------------------------------------------------
 
+using System;
+using System.Configuration;
 using TechTalk.SpecFlow;
 
 namespace WindowsPhoneTestFramework.Test.EmuSteps.HookDefinitions
@@ -26,7 +28,13 @@ namespace WindowsPhoneTestFramework.Test.EmuSteps.HookDefinitions
         [AfterScenario]
         public void AfterAnyScenarioMakeSureEmuIsDisposed()
         {
-            StepFlowOutputHelpers.Write(StepFlowOutputHelpers.WriteType.Trace, "Disposing of emulator");
+            var message = "Disposing of emulator";
+            if (Equals("true", ConfigurationManager.AppSettings["KeepEmulatorRunningAfterScenario"]))
+            {
+                message = "Releasing emulator";
+            }
+
+            StepFlowOutputHelpers.Write(StepFlowOutputHelpers.WriteType.Trace, message);
             DisposeOfEmu();
         }
     }
