@@ -192,7 +192,8 @@ namespace WindowsPhoneTestFramework.Server.AutomationController.WindowsPhone.Emu
         /// </returns>
         private static ManagementObject GetComputerKeyboard()
         {
-            var scope = new ManagementScope(@"root\virtualization", null);
+            // Root scope for Win8 and later is root\virtualization\v2...
+            var scope = new ManagementScope(@"root\virtualization\v2", null);
             ManagementObject vm = GetEmulator(scope);
             return GetComputerKeyboard(vm);
         }
