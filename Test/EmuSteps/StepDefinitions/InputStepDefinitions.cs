@@ -99,9 +99,9 @@ namespace WindowsPhoneTestFramework.Test.EmuSteps.StepDefinitions
 
         // /^I go back$/
 
-#warning Tap and Flick methods removed from InputStepDefinitions - can these be reinstated?
 
-        /*
+
+
 
         [Then(@"I flick ""([^\""]*)""$")]
         public void ThenIFlick(string flickDirection)
@@ -119,19 +119,19 @@ namespace WindowsPhoneTestFramework.Test.EmuSteps.StepDefinitions
                     Assert.Fail("Unknown flick " + flickDirection);
                     break;
             }
- 
+
             Emu.DisplayInputController.DoGesture(gesture);
         }
- 
+
         [Then(@"I tap on the middle of the screen")]
-        public void ThenITapTheCenterOfTheScreen() 
+        public void ThenITapTheCenterOfTheScreen()
         {
             ThenITapOnPercentPosition(50, 50);
         }
 
         private static int PercentToPosition(int percentage, int oneHundredPercentValue)
         {
-            return (int) (percentage*oneHundredPercentValue/100.0);
+            return (int)(percentage * oneHundredPercentValue / 100.0);
         }
 
         [Then(@"/^I tap on screen (\d+)% from the left and (\d+)% from the top$/")]
@@ -147,7 +147,6 @@ namespace WindowsPhoneTestFramework.Test.EmuSteps.StepDefinitions
         {
             IGesture gesture = TapGesture.TapOnPosition(x, y);
             Emu.DisplayInputController.DoGesture(gesture);
-        } 
-         */
+        }
     }
 }
