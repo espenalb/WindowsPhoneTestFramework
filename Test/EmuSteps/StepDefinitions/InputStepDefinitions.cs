@@ -10,6 +10,7 @@
 // ------------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 using WindowsPhoneTestFramework.Server.Core;
@@ -36,6 +37,7 @@ namespace WindowsPhoneTestFramework.Test.EmuSteps.StepDefinitions
         [StepDefinition(@"I go back")]
         public void ThenIGoBack()
         {
+            StepFlowOutputHelpers.Write(StepFlowOutputHelpers.WriteType.Trace, "Pressing hardware Back button");
             Emu.DisplayInputController.PressHardwareButton(PhoneHardwareButton.Back);
         }
 
