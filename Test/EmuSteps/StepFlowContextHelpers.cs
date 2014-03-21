@@ -11,6 +11,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 using WindowsPhoneTestFramework.Server.Core;
@@ -70,13 +71,13 @@ namespace WindowsPhoneTestFramework.Test.EmuSteps
                     object objectPictureIndex;
                     if (!scenarioContext.TryGetValue(EmuPictureIndexKey, out objectPictureIndex))
                         objectPictureIndex = 0;
-                    var pictureIndex = (int) objectPictureIndex;
+                    var pictureIndex = (int)objectPictureIndex;
                     scenarioContext[EmuPictureIndexKey] = ++pictureIndex;
 
                     var fileName = String.Format("{0}{1}_{2}_{3}.{4}",
                                                  prefix,
-                                                 featureContext.FeatureInfo.Title,
-                                                 scenarioContext.ScenarioInfo.Title,
+                                                 featureContext.FeatureInfo.Title.MaxLength(20),
+                                                 scenarioContext.ScenarioInfo.Title.MaxLength(40),
                                                  pictureIndex,
                                                  extension);
 
@@ -87,6 +88,12 @@ namespace WindowsPhoneTestFramework.Test.EmuSteps
                 }
         }
 
+        public static string MaxLength(this string text, int length)
+        {
+            if (String.IsNullOrEmpty(text) || text.Length<length)
+                return text;
+            return text.Substring(0, length);
+        }
         public static Random GetRandom()
         {
             return GetRandom(FeatureContext.Current, ScenarioContext.Current);
