@@ -21,16 +21,6 @@ namespace WindowsPhoneTestFramework.Test.EmuSteps.StepDefinitions
     [Binding]
     public class AutomationListStepDefinitions : EmuDefinitionBase
     {
-        public AutomationListStepDefinitions()
-        {
-        }
-
-#warning Investigate this commented out AutomationStepDefinitions ctor - can it be deleted?
-        /*
-        public AutomationStepDefinitions(IConfiguration configuration) : base(configuration)
-        {
-        }
-         */
         [StepDefinition("I select the (\\d.. |)item in the (.*) list$")]
         public void ISelectTheNumberedItemInNamedList(int index, string control)
         {
